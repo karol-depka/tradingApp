@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Trade } from '../../class/trade';
+import { Coin } from '../../class/coin';
 
 @Component({
   selector: 'app-new-trade',
@@ -7,12 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewTradeComponent implements OnInit {
 
-  coinList: string[];
+  coinList:string[];
+  
+  submitted = false;
+  trade = new Trade();
+  
 
   constructor() { }
 
   ngOnInit() {
     this.coinList = ['EUR', 'USD', 'GBP']
+    
+
   }
+
+  onSubmit(){ this.submitted = true }
 
 }
