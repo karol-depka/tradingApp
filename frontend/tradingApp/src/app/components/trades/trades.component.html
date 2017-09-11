@@ -20,37 +20,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-                <th scope="row">USD</th>
-                <th>200,00</th>
-                <th>EUR</th>
-                <th>206,50</th>
-                <th>1,0325</th>
-                <th>25/03/2018 23:25</th>
-            </tr>
-            <tr>
-                <th scope="row">GBP</th>
-                <th>1250,50</th>
-                <th>USD</th>
-                <th>1023,89</th>
-                <th>0,9801</th>
-                <th>24/03/2018 18:01</th>
-            </tr>
-            <tr>
-                <th scope="row">EUR</th>
-                <th>23,50</th>
-                <th>GBP</th>
-                <th>18,05</th>
-                <th>0,9621</th>
-                <th>24/03/2018 17:25</th>
-            </tr>
-            <tr>
-                <th scope="row">GBP</th>
-                <th>5054,98</th>
-                <th>EUR</th>
-                <th>206,50</th>
-                <th>4778,89</th>
-                <th>23/03/2018 12:12</th>
+            <tr *ngFor="let trade of trades">
+                <th scope="row">{{ trade.sell_currency }}</th>
+                <th>{{ trade.sell_amount }}</th>
+                <th>{{trade.buy_currency }}</th>
+                <th>{{ trade.buy_amount }}</th>
+                <th>{{ trade.rate }}</th>
+                <th>{{ trade.date_booked | date: 'dd/MM/yy HH:mm'}}</th>
             </tr>
           </tbody>
         </table>

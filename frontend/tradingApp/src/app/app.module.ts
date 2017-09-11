@@ -1,11 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms'
+import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
+import { BackendUriProvider } from './services/settings';
 
 //Routes
-import { APP_ROUTING } from './app.routes'
+import { APP_ROUTING } from './app.routes';
 
 //Services
+import { CoinService } from './services/coin.service';
+import { TradeService } from './services/trade.service';
 
 
 //Components
@@ -23,10 +27,15 @@ import { NewTradeComponent } from './components/new-trade/new-trade.component';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     APP_ROUTING,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    BackendUriProvider,
+    CoinService,
+    TradeService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
