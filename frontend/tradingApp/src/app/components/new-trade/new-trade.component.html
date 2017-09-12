@@ -2,26 +2,24 @@
 <hr>
 <form (ngSubmit)="onSubmit()" #tradeForm="ngForm">
   <div class="row">
-
     <div class="col-4">
       <div class="form-group">
         <label for="sellCurrency" class="col-form-label">Sell currency</label>
         <select id="sellCurrency" class="form-control"
-                required
                 [(ngModel)]="trade.sell_currency" name="sell_currency"
-                #sellCurrency="ngModel"
-                (change)="onChange()">
+                (change)="onChange()"
+                required>
           <option [ngValue]="none" selected disabled>Please select</option>
-          <option *ngFor="let coin of coinList" [value]="coin.name">{{ coin.name }}</option>
+          <option *ngFor="let coin of coinList" [value]="coin.name" [disabled]="coin.name == trade.buy_currency">{{ coin.name }}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="sellAmount" class="col-form-label">Sell amount</label>
         <input type="number" class="form-control" id="sellAmount" placeholder="Enter a quantity.."
-               required
                [(ngModel)]="trade.sell_amount"
-               #sellAmount="ngModel" name="sell_amount"
-               (change)="calculateBuyAmount()">
+                name="sell_amount"
+               (change)="calculateBuyAmount()"
+               required>
       </div>
     </div>
     <div class="col-4">
@@ -33,27 +31,35 @@
     </div>
     <div class="col-4">
       <div class="form-group">
-        <label for="buyCurrency" class="col-form-label">Buy currency</label>
+        <label for="buyCurrency" class="col-form-label">Buy currency </label>
         <select id="buyCurrency" class="form-control"
-                required
                 [(ngModel)]="trade.buy_currency" name="buy_currency"
-                #buyCurrency="ngModel"
-                (change)="onChange()">
+                (change)="onChange()"
+                required>
           <option [ngValue]="none" selected disabled>Please select</option>
-          <option *ngFor="let coin of coinList" [value]="coin.name">{{ coin.name }}</option>
+          <option *ngFor="let coin of coinList"  [value]="coin.name" [disabled]="coin.name == trade.sell_currency">{{ coin.name }}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="buyAmount">Buy amount</label>
+<<<<<<< HEAD
         <input type="number" maxlength="10" step="0.01" class="form-control" id="buyAmount"
                disabled
                [(ngModel)]="trade.buy_amount" name="buy_amount"
                #buyAmount="ngModel">
       </div>
+=======
+        <input type="number" maxlength="10" step="0.01" class="form-control" id="buyAmount" 
+               [(ngModel)]="trade.buy_amount" name="buy_amount"
+               #buyAmount="ngModel"
+               disabled
+               required>
+      </div>      
+>>>>>>> 13b17c2362ef1df0d8cafaf13bc5ae26972a856d
     </div>
     <div class="col-12">
       <div class="float-left">
-        <button type="submit" class="btn btn-secondary" [disabled]="">Create</button>
+        <button type="submit" class="btn btn-secondary" [disabled]="tradeForm.invalid">Create</button>
       </div>
       <div class="float-right">
         <a [routerLink]="['/']" class="btn btn-secondary">Cancel</a>

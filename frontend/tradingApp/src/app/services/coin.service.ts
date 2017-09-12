@@ -14,7 +14,7 @@ export class CoinService {
     @Inject(BackendUri) private _backendUri
   ) { }
 
-  getAll() {
+  getAll(): Observable<Coin[]> {
 
     return this._http
       .get(`${this._backendUri}/coins`)

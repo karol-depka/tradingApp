@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import "rxjs/add/operator/map";
 
 import { BackendUri } from './settings';
+import { Trade } from '../class/trade'
 
 @Injectable()
 export class TradeService {
@@ -15,19 +16,19 @@ export class TradeService {
     @Inject(BackendUri) private _backendUri
   ) { }
 
-  getAll() {
+  getAll():Observable<Trade[]> {
     return this._http
       .get(`${this._backendUri}/trades`)
       .map(res => res.json())
   }
 
-  getRate(sellCurrency:string, buyCurrency ){
+  getRate(sellCurrency:string, buyCurrency: string ): Observable<number>{
     return this._http
                .get(`${this._backendUri}/trades/getRate?sell_currency=${sellCurrency}&buy_currency=${buyCurrency}`)
                .map(res => res.json())
   }
 
-  createTrade(trade){
+  createTrade(trade: Trade):Observable<Trade>{
     const body = {
       sell_currency :trade.sell_currency,
       sell_amount: trade.sell_amount,
@@ -35,24 +36,12 @@ export class TradeService {
       buy_amount: trade.buy_amount,
       rate: trade.rate
       }
-    let headers = new Headers();
-    //headers.append("Access-Control-Allow-Headers",)
-    headers.append('Content-type','application/x-www-form-urlencoded');
+   
 
-    let options = new RequestOptions({headers: headers})
     return this._http
-               .post(`${this._backendUri}/trades/`,this.toQueryString(body), options)
-               .map(res => console.log("respuesta",res.json))
+               .post(`${this._backendUri}/trades/`,trade)
+               .map(response => response.json() as Trade)
   }
 
-  private toQueryString(obj: Object): string {
-    var parts = [];
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
-      }
-    };
-    return parts.join('&');
-  };
 
 }
