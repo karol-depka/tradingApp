@@ -15,9 +15,11 @@ export class NewTradeComponent implements OnInit {
 
   coinList;
   rate:number;
-  
+
   submitted = false;
   trade:Trade = {};
+
+  none = undefined; // hack
 
   constructor(
     private _coinService: CoinService,
@@ -25,12 +27,12 @@ export class NewTradeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-   
+
      this._coinService
          .getAll()
          .subscribe(data => this.coinList = data);
-    
-    
+
+
   }
 
   onChange(): void{
@@ -47,9 +49,9 @@ export class NewTradeComponent implements OnInit {
     }
   }
 
-  onSubmit(form: FormGroup):void{ 
+  onSubmit(): void{
     let trade: Trade;
-    trade = Object.assign({}, this.trade, form.value) as Trade;
+    trade = Object.assign({}, this.trade) as Trade;
     console.log(trade);
     this._tradeService
         .createTrade(trade)
