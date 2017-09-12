@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from "@angular/forms";
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router'
 
 import { Trade } from '../../class/trade';
 import { Coin } from '../../class/coin';
@@ -13,15 +14,16 @@ import { TradeService } from '../../services/trade.service';
 })
 export class NewTradeComponent implements OnInit {
 
-  coinList;
+  coinList:Coin[];
   rate:number;
-  
   submitted = false;
   trade:Trade = {};
 
+
   constructor(
     private _coinService: CoinService,
-    private _tradeService: TradeService
+    private _tradeService: TradeService,
+    private _router:Router
   ) { }
 
   ngOnInit() {
@@ -34,10 +36,10 @@ export class NewTradeComponent implements OnInit {
   }
 
   onChange(): void{
-    if (this.trade.sell_currency && this.trade.buy_currency){
+    if (this.trade.sell_currency && this.trade.buy_currency && (this.trade.buy_currency != this.trade.sell_currency)){
       this._tradeService
           .getRate(this.trade.sell_currency.toString(), this.trade.buy_currency.toString())
-          .subscribe(data => this.trade.rate = data.toFixed(4))
+          .subscribe(data => this.trade.rate = parseFloat(data.toFixed(4)))
     }
   }
 
@@ -53,7 +55,8 @@ export class NewTradeComponent implements OnInit {
     console.log(trade);
     this._tradeService
         .createTrade(trade)
-        .subscribe(data => console.log(data))
+        .subscribe(data => console.log(data));
+    this._router.navigate(['/'])
 
   }
 
